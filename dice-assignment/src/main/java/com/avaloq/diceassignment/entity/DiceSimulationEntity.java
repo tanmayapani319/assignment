@@ -1,9 +1,14 @@
 package com.avaloq.diceassignment.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +28,9 @@ public class DiceSimulationEntity {
     @Column(name="total_rolls")
     private int totalRolls;
 
+    @OneToMany(mappedBy = "diceSimulationEntity", cascade = CascadeType.ALL)
+    private List<ResultsEntity> results = new ArrayList<ResultsEntity>();
+
     DiceSimulationEntity() {}
 
     public DiceSimulationEntity(final int diceCount, final int diceSides, final int totalRolls) {
@@ -30,6 +38,7 @@ public class DiceSimulationEntity {
         this.diceSides = diceSides;
         this.totalRolls = totalRolls;
     }
+
 
     public Long getId() {
         return id;
@@ -62,6 +71,14 @@ public class DiceSimulationEntity {
 
     public void setTotalRolls(int totalRolls) {
         this.totalRolls = totalRolls;
+    }
+
+    public List<ResultsEntity> getResults() {
+        return results;
+    }
+
+    public void setResults(List<ResultsEntity> results) {
+        this.results = results;
     }
 
     @Override

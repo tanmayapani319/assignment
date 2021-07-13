@@ -1,12 +1,18 @@
 package com.avaloq.diceassignment.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import com.avaloq.diceassignment.model.DiceBuilder;
+import com.avaloq.diceassignment.model.RelativeDistribution;
+import com.avaloq.diceassignment.model.RelativeDistributionBuilder;
+import com.avaloq.diceassignment.entity.DiceSimulationEntity;
+import com.avaloq.diceassignment.entity.ResultsEntity;
 import com.avaloq.diceassignment.model.Dice;
 
 import org.springframework.stereotype.Service;
@@ -36,6 +42,24 @@ public class DiceSimulationService {
             }
         }
         return totalSumMap;
+    }
+
+    public List<RelativeDistribution> getRelativeDistributions(final List<DiceSimulationEntity> simulationEntities) {
+        return simulationEntities.stream()
+        .flatMap(entity -> entity.getResults().stream())
+        .map(result -> new RelativeDistributionBuilder()
+            .withSum(result.getSum())
+            .withTotalRolls(result.getDiceSimulationEntity().getTotalRolls())
+            .withRelativeDistribution(mapRelativeDistribution(result))
+            .build())
+        .collect(Collectors.toList());
+       
+    }
+
+    private String mapRelativeDistribution(final ResultsEntity result) {
+        DecimalFormat df = new DecimalFormat("##.##%");
+        double percent = (double)result.getOccurrences() / result.getDiceSimulationEntity().getTotalRolls();
+        return df.format(percent);
     }
 
     private Dice getDice(final int sides) {
