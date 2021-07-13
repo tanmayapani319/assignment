@@ -33,4 +33,9 @@ public class DiceSimulationController {
        repository.save(new DiceSimulationEntity(diceCount, diceSides, totalRolls));
        return response;
     }
+
+    @RequestMapping(value = "/getTotalRollsWithSimulations")
+    public ResponseEntity<Object> getTotalRollsWithSimulations() {
+        return new ResponseEntity<Object>(repository.countTotalSimulationsByDiceNumbersAndSides(), HttpStatus.OK);
+    }
 }

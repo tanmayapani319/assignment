@@ -1,8 +1,17 @@
 package com.avaloq.diceassignment.repository;
 
-import com.avaloq.diceassignment.entity.DiceSimulationEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface DiceSimulationRespository extends JpaRepository<DiceSimulationEntity, Long>{
+import com.avaloq.diceassignment.entity.DiceSimulationEntity;
+import com.avaloq.diceassignment.model.SimulationResult;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface DiceSimulationRespository extends JpaRepository<DiceSimulationEntity, Long> {
+
+    @Query("SELECT new com.avaloq.diceassignment.model.SimulationResult(COUNT(a.diceCount), SUM(a.totalRolls)) "
+  + "FROM DiceSimulationEntity AS a GROUP BY (a.diceCount, a.diceSides)")
+  List<SimulationResult> countTotalSimulationsByDiceNumbersAndSides();
     
 }

@@ -19,16 +19,16 @@ public class DiceSimulationEntity {
 
     @Column(name="dice_sides")
     private int diceSides;
-    
+
     @Column(name="total_rolls")
-    private int totalSimulations;
+    private int totalRolls;
 
     DiceSimulationEntity() {}
 
-    public DiceSimulationEntity(final int diceCount, final int diceSides, final int totalSimulations) {
+    public DiceSimulationEntity(final int diceCount, final int diceSides, final int totalRolls) {
         this.diceCount = diceCount;
         this.diceSides = diceSides;
-        this.totalSimulations = totalSimulations;
+        this.totalRolls = totalRolls;
     }
 
     public Long getId() {
@@ -55,12 +55,13 @@ public class DiceSimulationEntity {
         this.diceSides = diceSides;
     }
 
-    public int getTotalSimulations() {
-        return totalSimulations;
+
+    public int getTotalRolls() {
+        return totalRolls;
     }
 
-    public void setTotalSimulations(int totalSimulations) {
-        this.totalSimulations = totalSimulations;
+    public void setTotalRolls(int totalRolls) {
+        this.totalRolls = totalRolls;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class DiceSimulationEntity {
         result = prime * result + diceCount;
         result = prime * result + diceSides;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + totalSimulations;
+        result = prime * result + totalRolls;
         return result;
     }
 
@@ -92,7 +93,7 @@ public class DiceSimulationEntity {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (totalSimulations != other.totalSimulations)
+        if (totalRolls != other.totalRolls)
             return false;
         return true;
     }
@@ -100,7 +101,7 @@ public class DiceSimulationEntity {
     @Override
     public String toString() {
         return "DiceSimulationEntity [diceCount=" + diceCount + ", diceSides=" + diceSides + ", id=" + id
-                + ", totalSimulations=" + totalSimulations + "]";
+                + ", totalRolls=" + totalRolls + "]";
     }
 
     
