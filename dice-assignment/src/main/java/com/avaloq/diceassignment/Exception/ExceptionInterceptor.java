@@ -1,4 +1,4 @@
-package com.avaloq.diceassignment.Exception;
+package com.avaloq.diceassignment.exception;
 
 import javax.validation.ConstraintViolationException;
 
