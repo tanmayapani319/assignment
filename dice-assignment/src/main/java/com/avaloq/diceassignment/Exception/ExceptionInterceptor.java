@@ -19,11 +19,9 @@ public class ExceptionInterceptor extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(NoDataFoundExcetion.class)
-  public ResponseEntity<String> handleNoDataFoundExceptions(
+  public ResponseEntity<Object> handleNoDataFoundExceptions(
     final NoDataFoundExcetion ex
   ) {
-    return ResponseEntity
-        .status(HttpStatus.NOT_FOUND)
-        .body(ex.getMessage());
+    return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.NOT_FOUND);
   }
 }
