@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 
 import com.avaloq.diceassignment.entity.DiceSimulationEntity;
 import com.avaloq.diceassignment.entity.ResultsEntity;
+import com.avaloq.diceassignment.exception.NoDataFoundExcetion;
 import com.avaloq.diceassignment.repository.DiceSimulationRespository;
 import com.avaloq.diceassignment.service.DiceSimulationService;
 
@@ -30,6 +31,7 @@ public class DiceSimulationController {
     @Autowired
     private DiceSimulationRespository repository;
 
+    // Below mentioned changes are related to assignment-1
     @RequestMapping(value = "/getDiceSimulation")
     public ResponseEntity<Object> getSimulationResult(@RequestParam(name = "dice_count") @Valid @Min(1) int diceCount,
     @RequestParam(name = "dice_sides") @Valid @Min(4) int diceSides,
@@ -48,15 +50,20 @@ public class DiceSimulationController {
        return response;
     }
 
+    // Changes for assignment-2 part1
     @RequestMapping(value = "/getTotalRollsWithSimulations")
     public ResponseEntity<Object> getTotalRollsWithSimulations() {
         return new ResponseEntity<Object>(repository.countTotalSimulationsByDiceNumbersAndSides(), HttpStatus.OK);
     }
 
+    // Changes for assignment-2 part2
     @RequestMapping(value = "/getRelativeDistribution")
-    public ResponseEntity<Object> getRelativeDistribution(@RequestParam(name = "dice_count") int diceCount,
-    @RequestParam(name = "dice_sides") int diceSides) {
+    public ResponseEntity<Object> getRelativeDistribution(@RequestParam(name = "dice_count") @Valid @Min(1) int diceCount,
+    @RequestParam(name = "dice_sides") @Valid @Min(4) int diceSides) {
         final List<DiceSimulationEntity> simulationEntities = repository.findByDiceCountAndDiceSides(diceCount, diceSides);
+        if(simulationEntities == null || simulationEntities.isEmpty()) {
+            throw new NoDataFoundExcetion("No Data found for given dice number and dice side combination...");
+        }
         return new ResponseEntity<Object>(diceSimulationService.getRelativeDistributions(simulationEntities), HttpStatus.OK);
     }
 

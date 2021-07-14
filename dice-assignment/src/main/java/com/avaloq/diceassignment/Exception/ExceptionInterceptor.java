@@ -17,4 +17,13 @@ public class ExceptionInterceptor extends ResponseEntityExceptionHandler {
     final String exceptionResponse = String.format("Invalid input parameters: %s\n", ex.getMessage());
     return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
   }
+
+  @ExceptionHandler(NoDataFoundExcetion.class)
+  public ResponseEntity<String> handleNoDataFoundExceptions(
+    final NoDataFoundExcetion ex
+  ) {
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(ex.getMessage());
+  }
 }
